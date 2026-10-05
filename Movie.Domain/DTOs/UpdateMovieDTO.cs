@@ -1,6 +1,4 @@
-﻿using Movie.Domain.Entities;
-
-namespace Movie.Domain.DTOs
+﻿namespace Movie.Domain.DTOs
 {
     public class UpdateMovieDTO
     {

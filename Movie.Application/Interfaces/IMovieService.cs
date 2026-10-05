@@ -1,7 +1,4 @@
 ﻿using Movie.Domain.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Application.Interfaces
 {
@@ -9,10 +6,26 @@ namespace Movie.Application.Interfaces
     {
         Task<ICollection<MovieDTO>> GetAllMoviesAsync();
         Task AddMovieAsync(CreateMovieDTO movie);
-
         Task<MovieDTO> GetMovieByIDAsync(int id);
 
-        Task<bool> UpdateMovieAsync(UpdateMovieDTO dto);
+        Task<bool> UpdateMovieAsync(UpdateMovieDTO movie);
         Task<bool> DeleteMovieAsync(int id);
+
+        Task<ICollection<MovieDTO>> SearchMoviesByStudioAsync(
+            int year,
+            string studioName,
+            int minimumActorCount);
+
+        Task<ICollection<MovieDTO>> SearchMoviesByCountryAsync(
+            string countryName,
+            int minimumYear,
+            int maximumActorCount);
+
+        Task<ICollection<MovieDTO>> SearchMoviesAdvancedAsync(
+            int fromYear,
+            int toYear,
+            string countryName,
+            string titleText,
+            int minimumActorCount);
     }
 }

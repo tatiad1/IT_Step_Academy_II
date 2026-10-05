@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Movie.Domain.Entities
+﻿namespace Movie.Domain.Entities
 {
     public class Studio
     {
@@ -13,6 +8,5 @@ namespace Movie.Domain.Entities
         public Country Country { get; set; }
         public StudioDetails StudioDetails { get; set; }
         public ICollection<Movie> Movies { get; set; }
-
     }
 }

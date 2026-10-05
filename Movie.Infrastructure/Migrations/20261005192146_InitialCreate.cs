@@ -5,7 +5,7 @@
 namespace Movie.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDb : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,7 @@ namespace Movie.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    MyProperty = table.Column<int>(type: "int", nullable: false)
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {

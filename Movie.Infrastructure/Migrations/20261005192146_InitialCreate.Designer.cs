@@ -11,8 +11,8 @@ using Movie.Infrastructure.Data;
 namespace Movie.Infrastructure.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20261001150632_CreateDb")]
-    partial class CreateDb
+    [Migration("20261005192146_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,9 +56,6 @@ namespace Movie.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("MyProperty")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

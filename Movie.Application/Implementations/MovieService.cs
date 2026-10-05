@@ -7,10 +7,12 @@ namespace Movie.Application.Implementations
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public MovieService(IMovieRepository movieRepository)
+        public MovieService(IMovieRepository movieRepository, IUnitOfWork unitOfWork)
         {
             _movieRepository = movieRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task AddMovieAsync(CreateMovieDTO movie)
@@ -20,39 +22,29 @@ namespace Movie.Application.Implementations
                 Title = movie.Title,
                 ReleaseYear = movie.ReleaseYear,
                 StudioId = movie.StudioId
-
             };
             await _movieRepository.AddMovieAsync(movieEntity);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<ICollection<MovieDTO>> GetAllMoviesAsync()
         {
             var movies = await _movieRepository.GetAllMoviesAsync();
 
-            var moviesDTO = movies.Select(m => new MovieDTO
-            {
-                Id = m.Id,
-                Title = m.Title,
-                ReleaseYear = m.ReleaseYear,
-                StudioName = m.Studio.Name,
-            }).ToList();
-
-            return moviesDTO;
+            return movies.Select(MapToDTO).ToList();
         }
 
         public async Task<MovieDTO> GetMovieByIDAsync(int id)
         {
             var movie = await _movieRepository.GetMovieByIDAsync(id);
 
-            return new MovieDTO
+            if (movie == null)
             {
-                Id = movie.Id,
-                Title = movie.Title,
-                ReleaseYear = movie.ReleaseYear,
-                StudioName = movie.Studio.Name
-            };
-        }
+                return null;
+            }
 
+            return MapToDTO(movie);
+        }
 
         public async Task<bool> UpdateMovieAsync(UpdateMovieDTO dto)
         {
@@ -68,13 +60,64 @@ namespace Movie.Application.Implementations
             movie.StudioId = dto.StudioId;
 
             await _movieRepository.UpdateMovieAsync(movie);
+            await _unitOfWork.SaveChangesAsync();
             return true;
-
         }
 
         public async Task<bool> DeleteMovieAsync(int id)
         {
-            return await _movieRepository.DeleteMovieAsync(id);
+            var result = await _movieRepository.DeleteMovieAsync(id);
+            if (result)
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+            return result;
+        }
+
+
+        public async Task<ICollection<MovieDTO>> SearchMoviesByStudioAsync(
+            int year,
+            string studioName,
+            int minimumActorCount)
+        {
+            var movies = await _movieRepository.SearchMoviesByStudioAsync(year, studioName, minimumActorCount);
+
+            return movies.Select(MapToDTO).ToList();
+        }
+
+        public async Task<ICollection<MovieDTO>> SearchMoviesByCountryAsync(
+            string countryName,
+            int minimumYear,
+            int maximumActorCount)
+        {
+            var movies = await _movieRepository.SearchMoviesByCountryAsync(countryName, minimumYear, maximumActorCount);
+
+            return movies.Select(MapToDTO).ToList();
+        }
+
+        public async Task<ICollection<MovieDTO>> SearchMoviesAdvancedAsync(
+            int fromYear,
+            int toYear,
+            string countryName,
+            string titleText,
+            int minimumActorCount)
+        {
+            var movies = await _movieRepository.SearchMoviesAdvancedAsync(
+                fromYear, toYear, countryName, titleText ?? string.Empty, minimumActorCount);
+
+            return movies.Select(MapToDTO).ToList();
+        }
+
+        // Entity -> DTO mapping in one place
+        private static MovieDTO MapToDTO(Movie.Domain.Entities.Movie movie)
+        {
+            return new MovieDTO
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                ReleaseYear = movie.ReleaseYear,
+                StudioName = movie.Studio.Name
+            };
         }
     }
 }

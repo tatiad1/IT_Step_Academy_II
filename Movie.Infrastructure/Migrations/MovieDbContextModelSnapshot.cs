@@ -54,9 +54,6 @@ namespace Movie.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("MyProperty")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Actors");
