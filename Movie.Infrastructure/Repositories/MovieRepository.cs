@@ -28,5 +28,39 @@ namespace Movie.Infrastructure.Repositories
                 .Include(m => m.Studio)
                 .ToListAsync();
         }
+
+
+        public async Task<Movie.Domain.Entities.Movie> GetMovieByIDAsync(int id)
+        {
+            //var movieByID = await _movieDbContext.Movies.FindAsync(id);
+
+            var movieByID = await _movieDbContext.Movies
+                .Include(m => m.Studio)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            return movieByID;
+        }
+
+
+        public async Task UpdateMovieAsync(Domain.Entities.Movie movie)
+        {
+            _movieDbContext.Movies.Update(movie);
+            await _movieDbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteMovieAsync(int id)
+        {
+            var movieToDelete = await _movieDbContext.Movies.FindAsync(id);
+
+            if (movieToDelete == null)
+            {
+                return false;
+            }
+
+            _movieDbContext.Movies.Remove(movieToDelete);
+            await _movieDbContext.SaveChangesAsync();
+            return true;
+        }
+
     }
 }
