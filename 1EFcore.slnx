@@ -4,5 +4,6 @@
     <Project Path="Movie.Domain/Movie.Domain.csproj" />
     <Project Path="Movie.Infrastructure/Movie.Infrastructure.csproj" />
     <Project Path="Movie.UI/Movie.UI.csproj" />
+    <Project Path="Movie.Web/Movie.Web.csproj" Id="07ba2503-13fe-421c-86c7-363212b4f14a" />
   </Folder>
 </Solution>

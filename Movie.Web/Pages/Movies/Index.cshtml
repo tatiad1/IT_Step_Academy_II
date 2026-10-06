@@ -1,0 +1,39 @@
+﻿@page
+@model Movie.Web.Pages.Movies.IndexModel
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<section class="movies-hero">
+    <h1 class="display-5 fw-bold mb-2">Movies</h1>
+    <p>@Model.Movies.Count @(Model.Movies.Count == 1 ? "movie" : "movies") in the collection</p>
+</section>
+
+@if (!Model.Movies.Any())
+{
+    <div class="alert alert-info">
+        No movies found. Run the console project once to seed the database.
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+        @foreach (var movie in Model.Movies)
+        {
+            <div class="col">
+                <div class="card movie-card h-100">
+                    <div class="movie-poster position-relative">
+                        @(string.IsNullOrWhiteSpace(movie.Title) ? "?" : movie.Title.Trim()[0].ToString().ToUpper())
+                        <span class="badge movie-year-badge position-absolute top-0 end-0 m-3 fs-6">@movie.ReleaseYear</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title mb-1">
+                            <a asp-page="/Movies/Details" asp-route-id="@movie.Id" class="movie-title-link">@movie.Title</a>
+                        </h5>
+                        <p class="card-text text-muted mb-0">@movie.StudioName</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

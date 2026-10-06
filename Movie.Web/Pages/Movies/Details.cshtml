@@ -1,0 +1,47 @@
+﻿@page "{id:int}"
+@model Movie.Web.Pages.Movies.DetailsModel
+@{
+    ViewData["Title"] = Model.MovieDetails.Title;
+}
+
+<div class="movie-detail card mb-4">
+    <div class="row g-0">
+
+        <div class="col-md-4">
+            <div class="movie-detail-poster">
+                @(string.IsNullOrWhiteSpace(Model.MovieDetails.Title) ? "?" : Model.MovieDetails.Title.Trim()[0].ToString().ToUpper())
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card-body p-4 p-md-5">
+
+                <span class="detail-label">Title</span>
+                <h1 class="detail-title">@Model.MovieDetails.Title</h1>
+
+                <hr class="my-4" />
+
+                <div class="row g-4">
+                    <div class="col-sm-4">
+                        <span class="detail-label">Release Year</span>
+                        <div class="detail-value">@Model.MovieDetails.ReleaseYear</div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <span class="detail-label">Studio</span>
+                        <div class="detail-value">@Model.MovieDetails.StudioName</div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <span class="detail-label">Movie ID</span>
+                        <div class="detail-value">#@Model.MovieDetails.Id</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<a asp-page="/Movies/Index" class="btn btn-back">&larr; Back to Movies</a>
