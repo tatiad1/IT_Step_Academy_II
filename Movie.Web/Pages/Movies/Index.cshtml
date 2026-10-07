@@ -4,15 +4,53 @@
     ViewData["Title"] = "Movies";
 }
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Success"]
+    </div>
+}
+
 <section class="movies-hero">
     <h1 class="display-5 fw-bold mb-2">Movies</h1>
-    <p>@Model.Movies.Count @(Model.Movies.Count == 1 ? "movie" : "movies") in the collection</p>
+    <p>@Model.Movies.Count @(Model.Movies.Count == 1 ? "movie" : "movies") @(Model.IsFiltered ? "found" : "in the collection")</p>
 </section>
+
+<form method="post" asp-page-handler="Search" class="search-panel">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label asp-for="Year" class="form-label search-label">Released from year</label>
+            <input asp-for="Year" type="number" min="0" class="form-control" placeholder="e.g. 2000" />
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="StudioName" class="form-label search-label">Studio Name</label>
+            <input asp-for="StudioName" type="text" class="form-control" placeholder="e.g. Warner Bros" />
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="MinimumActorCount" class="form-label search-label">Minimum Actors</label>
+            <input asp-for="MinimumActorCount" type="number" min="0" class="form-control" placeholder="e.g. 1" />
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.SearchError))
+    {
+        <div class="text-danger small mt-3">@Model.SearchError</div>
+    }
+
+    <div class="d-flex gap-2 mt-4">
+        <button type="submit" class="btn btn-movie">Search</button>
+        <a asp-page="/Movies/Index" class="btn btn-reset">Reset Filter</a>
+    </div>
+</form>
 
 @if (!Model.Movies.Any())
 {
     <div class="alert alert-info">
-        No movies found. Run the console project once to seed the database.
+        @(Model.IsFiltered
+            ? "No movies match your filters. Click Reset Filter to see all movies."
+            : "No movies found. Run the console project once to seed the database.")
     </div>
 }
 else
@@ -26,11 +64,17 @@ else
                         @(string.IsNullOrWhiteSpace(movie.Title) ? "?" : movie.Title.Trim()[0].ToString().ToUpper())
                         <span class="badge movie-year-badge position-absolute top-0 end-0 m-3 fs-6">@movie.ReleaseYear</span>
                     </div>
+
                     <div class="card-body">
                         <h5 class="card-title mb-1">
                             <a asp-page="/Movies/Details" asp-route-id="@movie.Id" class="movie-title-link">@movie.Title</a>
                         </h5>
                         <p class="card-text text-muted mb-0">@movie.StudioName</p>
+                    </div>
+
+                    <div class="card-footer movie-card-footer d-flex gap-2">
+                        <a asp-page="/Movies/Details" asp-route-id="@movie.Id" class="btn btn-sm btn-outline-dark">Details</a>
+                        <a asp-page="/Movies/Edit" asp-route-id="@movie.Id" class="btn btn-sm btn-edit">Edit</a>
                     </div>
                 </div>
             </div>

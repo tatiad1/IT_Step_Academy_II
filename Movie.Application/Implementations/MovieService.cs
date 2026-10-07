@@ -74,7 +74,9 @@ namespace Movie.Application.Implementations
             return result;
         }
 
-
+        // ===============================
+        // Search (Tasks 1-3)
+        // ===============================
         public async Task<ICollection<MovieDTO>> SearchMoviesByStudioAsync(
             int year,
             string studioName,
@@ -102,13 +104,14 @@ namespace Movie.Application.Implementations
             string titleText,
             int minimumActorCount)
         {
+            // Contains(null) would throw, so treat null as "no title filter"
             var movies = await _movieRepository.SearchMoviesAdvancedAsync(
                 fromYear, toYear, countryName, titleText ?? string.Empty, minimumActorCount);
 
             return movies.Select(MapToDTO).ToList();
         }
 
-        // Entity -> DTO mapping in one place
+        // Entity -> DTO mapping in one place instead of repeating it in every method
         private static MovieDTO MapToDTO(Movie.Domain.Entities.Movie movie)
         {
             return new MovieDTO
@@ -116,6 +119,7 @@ namespace Movie.Application.Implementations
                 Id = movie.Id,
                 Title = movie.Title,
                 ReleaseYear = movie.ReleaseYear,
+                StudioId = movie.StudioId,
                 StudioName = movie.Studio.Name
             };
         }

@@ -91,6 +91,110 @@ body {
         text-decoration: underline;
     }
 
+.movie-card-footer {
+    background-color: #fff;
+    border-top: 1px solid #e5e7eb;
+    padding: .75rem 1rem;
+}
+
+/* ===== Search panel ===== */
+.search-panel {
+    background-color: #fff;
+    border-radius: 1rem;
+    border-left: 6px solid var(--movie-accent);
+    box-shadow: 0 .25rem 1rem rgba(0, 0, 0, .08);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.search-label,
+.movie-form-label {
+    font-size: .75rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+/* ===== Buttons ===== */
+/* dark button, turns amber on hover (Search, Update Movie, Back to Movies) */
+.btn-movie,
+.btn-back {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--movie-dark);
+    --bs-btn-border-color: var(--movie-dark);
+    --bs-btn-hover-color: var(--movie-dark);
+    --bs-btn-hover-bg: var(--movie-accent);
+    --bs-btn-hover-border-color: var(--movie-accent);
+    --bs-btn-active-color: var(--movie-dark);
+    --bs-btn-active-bg: var(--movie-accent);
+    --bs-btn-active-border-color: var(--movie-accent);
+    border-radius: .5rem;
+    padding: .6rem 1.25rem;
+    font-weight: 600;
+    transition: transform .2s ease;
+}
+
+    .btn-back:hover {
+        transform: translateX(-4px);
+    }
+
+/* light outlined button (Reset Filter, Cancel) */
+.btn-reset {
+    --bs-btn-color: var(--movie-dark);
+    --bs-btn-bg: #fff;
+    --bs-btn-border-color: #9ca3af;
+    --bs-btn-hover-color: var(--movie-dark);
+    --bs-btn-hover-bg: #e5e7eb;
+    --bs-btn-hover-border-color: #6b7280;
+    --bs-btn-active-color: var(--movie-dark);
+    --bs-btn-active-bg: #d1d5db;
+    --bs-btn-active-border-color: #6b7280;
+    border-radius: .5rem;
+    padding: .6rem 1.25rem;
+    font-weight: 600;
+}
+
+/* amber button (Edit) */
+.btn-edit {
+    --bs-btn-color: var(--movie-dark);
+    --bs-btn-bg: var(--movie-accent);
+    --bs-btn-border-color: var(--movie-accent);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #b45309;
+    --bs-btn-hover-border-color: #b45309;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #b45309;
+    --bs-btn-active-border-color: #b45309;
+    font-weight: 600;
+}
+
+/* ===== Edit form page ===== */
+.movie-form-card {
+    max-width: 720px;
+    border: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 .25rem 1rem rgba(0, 0, 0, .08);
+    margin-bottom: 1.5rem;
+}
+
+.movie-form-header {
+    background-color: var(--movie-dark);
+    color: #fff;
+    padding: 2rem;
+}
+
+.movie-form-eyebrow {
+    display: block;
+    font-size: .75rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--movie-accent);
+    font-weight: 600;
+    margin-bottom: .25rem;
+}
+
 /* ===== Movie details page ===== */
 .movie-detail {
     border: 0;
@@ -132,24 +236,3 @@ body {
     font-weight: 600;
     color: var(--movie-dark);
 }
-
-/* Back to Movies button (works on top of Bootstrap's .btn) */
-.btn-back {
-    --bs-btn-color: #fff;
-    --bs-btn-bg: var(--movie-dark);
-    --bs-btn-border-color: var(--movie-dark);
-    --bs-btn-hover-color: var(--movie-dark);
-    --bs-btn-hover-bg: var(--movie-accent);
-    --bs-btn-hover-border-color: var(--movie-accent);
-    --bs-btn-active-color: var(--movie-dark);
-    --bs-btn-active-bg: var(--movie-accent);
-    --bs-btn-active-border-color: var(--movie-accent);
-    border-radius: .5rem;
-    padding: .6rem 1.25rem;
-    font-weight: 600;
-    transition: transform .2s ease;
-}
-
-    .btn-back:hover {
-        transform: translateX(-4px);
-    }
